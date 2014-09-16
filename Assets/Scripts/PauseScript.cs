@@ -9,6 +9,13 @@ public class PauseScript : MonoBehaviour {
 		private float gldepth = -0.5f;
 		private float startTime = 0.1f;
 		
+	
+		//private static int nativeVerticalResolution = 1200;
+		//private var nativeVerticalResolution = 960.0;
+
+		//private float scaledResolutionWidth = nativeVerticalResolution / Screen.height * Screen.width;
+
+
 		public Material mat;
 		
 		private long tris = 0;
@@ -124,6 +131,10 @@ public class PauseScript : MonoBehaviour {
 			if (skin != null) {
 				GUI.skin = skin;
 			}
+
+			//Our GUI is laid out for a 1920 x 1200 pixel display (16:10 aspect). The next line makes sure it rescales nicely to other resolutions.
+			//GUI.matrix = (matrix)Matrix4x4.TRS (Vector3(0, 0, 0), Quaternion.identity, Vector3 (Screen.height / nativeVerticalResolution, Screen.height / nativeVerticalResolution, 1));
+
 			ShowStatNums();
 			ShowLegal();
 			if (IsGamePaused()) {
@@ -138,6 +149,7 @@ public class PauseScript : MonoBehaviour {
 		
 		void ShowLegal() {
 			if (!IsLegal()) {
+				//GUI.Label(Rect(scaledResolutionWidth-100,nativeVerticalResolution-20,scaledResolutionWidth/4,nativeVerticalResolution/4),
 				GUI.Label(new Rect(Screen.width-100,Screen.height-20,90,20),
 				          "jdonavan.com");
 			}
@@ -151,7 +163,7 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void ShowToolbar() {
-			BeginPage(500,600);
+			BeginPage(800,500);
 			toolbarInt = GUILayout.Toolbar (toolbarInt, toolbarstrings);
 			switch (toolbarInt) {
 			case 0: VolumeControl(); break;
@@ -163,7 +175,7 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void ShowCredits() {
-			BeginPage(500,600);
+			BeginPage(600,600);
 			foreach(string credit in credits) {
 				GUILayout.Label(credit);
 			}
@@ -174,7 +186,8 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void ShowBackButton() {
-			if (GUI.Button(new Rect(20, Screen.height - 50, 150, 60),"Back")) {
+			//if (GUI.Button(Rect(40,nativeVerticalResolution-100,200,80),"Back")) {
+			if (GUI.Button(new Rect(40, Screen.height - 100, 150, 60),"Back")) {
 				currentPage = Page.Main;
 			}
 		}
@@ -247,6 +260,7 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void ShowStatNums() {
+			//GUILayout.BeginArea(Rect(scaledResolutionWidth-200,20,scaledResolutionWidth/4,nativeVerticalResolution/4));
 			GUILayout.BeginArea( new Rect(Screen.width - 100, 10, 100, 200));
 			if (showfps) {
 				string fpsstring= fps.ToString ("#,##0 fps");
@@ -267,7 +281,9 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void BeginPage(int width, int height) {
-			GUILayout.BeginArea( new Rect((Screen.width - width) / 2, (Screen.height - height) / 2, width, height));
+		//scaledResolutionWidth = nativeVerticalResolution / Screen.height * Screen.width;
+		//GUILayout.BeginArea(Rect(scaledResolutionWidth/2 - (width/2), nativeVerticalResolution/2 - (height/2),width,height));
+		GUILayout.BeginArea( new Rect((Screen.width - width) / 2, (Screen.height - height) / 2, width, height));
 		}
 		
 		void EndPage() {
@@ -283,7 +299,7 @@ public class PauseScript : MonoBehaviour {
 		
 		
 		void MainPauseMenu() {
-			BeginPage(300,500);
+			BeginPage(800,300);
 			if (GUILayout.Button (IsBeginning() ? "Play" : "Continue")) {
 				UnPauseGame();
 				
