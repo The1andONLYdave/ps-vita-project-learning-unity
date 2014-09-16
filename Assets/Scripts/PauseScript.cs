@@ -33,6 +33,7 @@ public class PauseScript : MonoBehaviour {
 		public Color statColor = Color.yellow;
 		
 		public string[] credits= {
+			"Menu used from",
 			"A Fugu Games Production",
 			"Programming by Phil Chu",
 			"Fugu logo by Shane Nakamura Designs",
@@ -150,7 +151,7 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void ShowToolbar() {
-			BeginPage(300,300);
+			BeginPage(500,600);
 			toolbarInt = GUILayout.Toolbar (toolbarInt, toolbarstrings);
 			switch (toolbarInt) {
 			case 0: VolumeControl(); break;
@@ -162,7 +163,7 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void ShowCredits() {
-			BeginPage(300,300);
+			BeginPage(500,600);
 			foreach(string credit in credits) {
 				GUILayout.Label(credit);
 			}
@@ -173,7 +174,7 @@ public class PauseScript : MonoBehaviour {
 		}
 		
 		void ShowBackButton() {
-			if (GUI.Button(new Rect(20, Screen.height - 50, 50, 20),"Back")) {
+			if (GUI.Button(new Rect(20, Screen.height - 50, 150, 60),"Back")) {
 				currentPage = Page.Main;
 			}
 		}
@@ -282,7 +283,7 @@ public class PauseScript : MonoBehaviour {
 		
 		
 		void MainPauseMenu() {
-			BeginPage(200,200);
+			BeginPage(300,500);
 			if (GUILayout.Button (IsBeginning() ? "Play" : "Continue")) {
 				UnPauseGame();
 				
@@ -293,8 +294,11 @@ public class PauseScript : MonoBehaviour {
 			if (GUILayout.Button ("Credits")) {
 				currentPage = Page.Credits;
 			}
-			if (IsBrowser() && !IsBeginning() && GUILayout.Button ("Restart")) {
-				Application.OpenURL(url);
+			if (!IsBeginning() && GUILayout.Button ("Mainmenu")) {
+				Application.LoadLevel(0); //back to main
+			}
+			if (!IsBeginning() && GUILayout.Button ("Restart")) {
+				Application.LoadLevel(Application.loadedLevel); //back to main
 			}
 			EndPage();
 		}
