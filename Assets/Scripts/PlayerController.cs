@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour {
 			isSlaying=true;		
 			StartCoroutine(ResetIsSlaying());
 		}
-
 	}
 	void Move(){
 		if (characterController.isGrounded) {
