@@ -15,6 +15,9 @@ public class SpriteController : MonoBehaviour {
 	public List<Texture2D> animationAttackLeft;
 	public float speed = 1;
 	public AnimationType currentAnimationType = AnimationType.stayRight;
+	public bool looping = true;
+	private AnimationType oldAnimationType = AnimationType.stayRight;
+	private float myTime =0;
 
 	public enum AnimationType{
 		stayRight,
@@ -33,6 +36,11 @@ public class SpriteController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	
+		if (oldAnimationType != currentAnimationType) {
+			myTime=0;
+			oldAnimationType=currentAnimationType;
+		}
 		switch (currentAnimationType) {
 		
 		case AnimationType.stayRight:
@@ -66,7 +74,14 @@ public class SpriteController : MonoBehaviour {
 
 	void SetTexture(List<Texture2D> animationSprite){
 
-		int index = (int)(Time.time * speed);
+		myTime+=Time.deltaTime;
+		int index = (int)(myTime * speed);
+
+		if (!looping) {
+			if(index>=animationSprite.Count-1){
+				index = animationSprite.Count -1;
+			}		
+		}
 		index = index % animationSprite.Count;
 		renderer.material.mainTexture = animationSprite [index];
 
