@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<application project_name="InAppPurchaseSample" version="1.00" runtime_version="4.03" sdk_version="4.03.41" default_locale="en-US">
+<application project_name="InAppPurchaseSample" version="1.00" runtime_version="4.03" sdk_version="4.03.42" default_locale="en-US">
   <app_xml_format version="1.00.00" sdk_type="Unity for PSM" />
   <name>
     <localized_item locale="en-US" value="LongName" />
@@ -130,7 +130,7 @@
   </feature_list>
   <psn_service_list />
   <unity>
-    <unity_original_runtime_version value="04.3.4.1" />
+    <unity_original_runtime_version value="04.3.4.2" />
     <app_ver value="01.02" />
   </unity>
 </application>
