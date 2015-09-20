@@ -16,15 +16,28 @@ public class PlayerController : MonoBehaviour {
 	bool lookRight = true;
 	bool isSlaying = false;
 	float slayingTime = 0.2F;
+    Vector3 zeroAc;
+    Vector3 curAc;
+    float sensH = 10;
+    float sensV = 10;
+    float smooth = 0.5F;
+    float GetAxisH = 0;
+    float GetAxisV = 0;
 	// Use this for initialization
 	void Start () {
 		characterController = GetComponent<CharacterController> ();
 		spriteController = GetComponent<SpriteController> ();
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        ResetAxes();
+
+    }
+
+    void ResetAxes()
+    {
+        zeroAc = Input.acceleration;
+        curAc = Vector3.zero;
+    }
+    // Update is called once per frame
+    void Update () {
 		InputCheck();
 		Move();
 		SetAnimation();
@@ -33,9 +46,17 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void InputCheck(){
-		velocity = Input.GetAxis ("Horizontal") * speed;
-
-		if (velocity > 0) {
+        curAc = Vector3.Lerp(curAc, Input.acceleration - zeroAc, Time.deltaTime / smooth);
+        GetAxisV = Mathf.Clamp(curAc.y * sensV, -1, 1);
+        GetAxisH = Mathf.Clamp(curAc.x * sensH, -1, 1);
+        // now use GetAxisV and GetAxisH instead of Input.GetAxis vertical and horizontal
+        // If the horizontal and vertical directions are swapped, swap curAc.y and curAc.x
+        // in the above equations. If some axis is going in the wrong direction, invert the
+        // signal (use -curAc.x or -curAc.y)
+        
+        velocity = GetAxisH * speed;
+        
+        if (velocity > 0) {
 						lookRight = true;
 				}
 		if (velocity < 0) {

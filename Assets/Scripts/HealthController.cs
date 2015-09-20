@@ -39,14 +39,14 @@ public class HealthController : MonoBehaviour {
 	}
 
 	IEnumerator DamageEffect(){
-		renderer.enabled = false;
+		GetComponent<Renderer>().enabled = false;
 		yield return new WaitForSeconds(damageEffectPause);
-		renderer.enabled = true;
+		GetComponent<Renderer>().enabled = true;
 		yield return new WaitForSeconds(damageEffectPause);
-		renderer.enabled = false;
+		GetComponent<Renderer>().enabled = false;
 		yield return new WaitForSeconds(damageEffectPause);
-		renderer.enabled = true;
+		GetComponent<Renderer>().enabled = true;
 		yield return new WaitForSeconds(damageEffectPause);
-		renderer.enabled = true;
+		GetComponent<Renderer>().enabled = true;
 	}
 }

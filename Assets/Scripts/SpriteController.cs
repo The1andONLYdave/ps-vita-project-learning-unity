@@ -83,7 +83,7 @@ public class SpriteController : MonoBehaviour {
 			}		
 		}
 		index = index % animationSprite.Count;
-		renderer.material.mainTexture = animationSprite [index];
+		GetComponent<Renderer>().material.mainTexture = animationSprite [index];
 
 	}
 	public void SetAnimation(AnimationType animationType){

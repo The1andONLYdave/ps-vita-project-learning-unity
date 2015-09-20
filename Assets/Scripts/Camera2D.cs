@@ -12,7 +12,7 @@ public class Camera2D : MonoBehaviour {
 	Vector3 position;
 	// Use this for initialization
 	void Start () {
-		orthoSize = camera.orthographicSize;
+		orthoSize = GetComponent<Camera>().orthographicSize;
 	}
 	
 	// Update is called once per frame
