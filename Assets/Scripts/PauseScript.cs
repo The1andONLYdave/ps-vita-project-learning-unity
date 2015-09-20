@@ -11,9 +11,9 @@ public class PauseScript : MonoBehaviour {
 		
 	
 		//private static int nativeVerticalResolution = 1200;
-		//private var nativeVerticalResolution = 960.0;
+		private static int nativeVerticalResolution = 960;
 
-		//private float scaledResolutionWidth = nativeVerticalResolution / Screen.height * Screen.width;
+		private float scaledResolutionWidth = nativeVerticalResolution / Screen.height * Screen.width;
 
 
 		public Material mat;
@@ -132,10 +132,10 @@ public class PauseScript : MonoBehaviour {
 				GUI.skin = skin;
 			}
 
-			//Our GUI is laid out for a 1920 x 1200 pixel display (16:10 aspect). The next line makes sure it rescales nicely to other resolutions.
-			//GUI.matrix = (matrix)Matrix4x4.TRS (Vector3(0, 0, 0), Quaternion.identity, Vector3 (Screen.height / nativeVerticalResolution, Screen.height / nativeVerticalResolution, 1));
+        //Our GUI is laid out for a 1920 x 1200 pixel display (16:10 aspect). The next line makes sure it rescales nicely to other resolutions.
+        //GUI.matrix = (matrix)Matrix4x4.TRS (Vector3(0, 0, 0), Quaternion.identity, Vector3 (Screen.height / nativeVerticalResolution, Screen.height / nativeVerticalResolution, 1));
 
-			ShowStatNums();
+        ShowStatNums();
 			ShowLegal();
 			if (IsGamePaused()) {
 				GUI.color = statColor;

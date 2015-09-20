@@ -18,8 +18,8 @@ public class PlayerController : MonoBehaviour {
 	float slayingTime = 0.2F;
     Vector3 zeroAc;
     Vector3 curAc;
-    float sensH = 10;
-    float sensV = 10;
+    float sensH = 3;
+    float sensV = 3;
     float smooth = 0.5F;
     float GetAxisH = 0;
     float GetAxisV = 0;
