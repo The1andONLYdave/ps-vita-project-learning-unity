@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	void InputCheck(){
+    void InputCheck() {
         curAc = Vector3.Lerp(curAc, Input.acceleration - zeroAc, Time.deltaTime / smooth);
         GetAxisV = Mathf.Clamp(curAc.y * sensV, -1, 1);
         GetAxisH = Mathf.Clamp(curAc.x * sensH, -1, 1);
@@ -53,17 +53,35 @@ public class PlayerController : MonoBehaviour {
         // If the horizontal and vertical directions are swapped, swap curAc.y and curAc.x
         // in the above equations. If some axis is going in the wrong direction, invert the
         // signal (use -curAc.x or -curAc.y)
-        
-        velocity = GetAxisH * speed;
-        
-        if (velocity > 0) {
-						lookRight = true;
-				}
-		if (velocity < 0) {
-						lookRight = false;
-				}
 
-		if ((Input.GetButtonDown ("Jump"))||(Input.GetKeyDown(KeyCode.JoystickButton0))) { //ps vita x?
+        velocity = GetAxisH * speed;
+
+        if (velocity > 0) {
+            lookRight = true;
+        }
+        if (velocity < 0) {
+            lookRight = false;
+        }
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.position.x < Screen.width / 2)
+            {
+                inputJump = true;
+            }
+            else if (touch.position.x > Screen.width / 2)
+            {
+                inputJump = false;
+                isSlaying = true;
+                StartCoroutine(ResetIsSlaying());
+            }
+        }
+        else {
+            inputJump = false;
+        }
+
+        /*if ((Input.GetButtonDown ("Jump"))||(Input.GetKeyDown(KeyCode.JoystickButton0))) { //ps vita x?
 			inputJump=true;
 				}
 		else{
@@ -72,7 +90,7 @@ public class PlayerController : MonoBehaviour {
 		if (((Input.GetButtonDown ("Fire1")) || (Input.GetKeyDown (KeyCode.JoystickButton2)))&&!isSlaying) { //ps vita square
 			isSlaying=true;		
 			StartCoroutine(ResetIsSlaying());
-		}
+		}*/
 	}
 	void Move(){
 		if (characterController.isGrounded) {
