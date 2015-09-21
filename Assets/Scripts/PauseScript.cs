@@ -10,8 +10,8 @@ public class PauseScript : MonoBehaviour {
 		private float startTime = 0.1f;
 		
 	
-		//private static int nativeVerticalResolution = 1200;
-		private static int nativeVerticalResolution = 960;
+		private static int nativeVerticalResolution = 1200;
+		//private static int nativeVerticalResolution = 960;
 
 		private float scaledResolutionWidth = nativeVerticalResolution / Screen.height * Screen.width;
 
@@ -300,7 +300,7 @@ public class PauseScript : MonoBehaviour {
 		
 		void MainPauseMenu() {
 			BeginPage(800,300);
-			if (GUILayout.Button (IsBeginning() ? "Play" : "Continue")) {
+			if (GUILayout.Button (IsBeginning() ? "Play (Gerät gerade halten beim klicken)" : "Continue")) {
 				UnPauseGame();
 				
 			}
