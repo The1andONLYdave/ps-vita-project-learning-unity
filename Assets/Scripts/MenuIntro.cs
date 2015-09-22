@@ -2,15 +2,17 @@
 using System.Collections;
 
 public class MenuIntro : MonoBehaviour {
+    private float ctrlWidth  = 240;
+    private float ctrlHeight = 100;
 
 	void OnGUI(){
-		if(GUI.Button(new Rect(100,100,300,100),"Start")){
+		if(GUI.Button(new Rect((Screen.width - ctrlWidth) / 2 ,  0, ctrlWidth, ctrlHeight),"Start")){
 			Application.LoadLevel(1);
 		}
-		if(GUI.Button(new Rect(100,300,300,100),"InAppPurchase")){
+		if(GUI.Button(new Rect((Screen.width - ctrlWidth) / 2, 120, ctrlWidth, ctrlHeight), "InAppPurchase")){
 			Application.LoadLevel(2);
 		}
-		if(GUI.Button(new Rect(500,100,300,100),"Credit")){
+		if(GUI.Button(new Rect((Screen.width - ctrlWidth) / 2, 240, ctrlWidth, ctrlHeight),"Credit")){
 			Application.LoadLevel(3);
 		}
 	}

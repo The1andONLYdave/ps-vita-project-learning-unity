@@ -15,16 +15,16 @@ public class PauseScript : MonoBehaviour {
 
 		private float scaledResolutionWidth = nativeVerticalResolution / Screen.height * Screen.width;
 
+        private float ctrlWidth = 240;
+        private float ctrlHeight = 100;
 
-		public Material mat;
+        public Material mat;
 		
 		private long tris = 0;
 		private long verts = 0;
 		private float savedTimeScale;
 		
 		private bool showfps;
-		private bool showtris;
-		private bool showvtx;
 		private bool showfpsgraph;
 		
 		public Color lowFPSColor = Color.red;
@@ -35,8 +35,6 @@ public class PauseScript : MonoBehaviour {
 		
 		public GameObject start;
 		
-		public string url = "unity.html";
-		
 		public Color statColor = Color.yellow;
 		
 		public string[] credits= {
@@ -44,7 +42,8 @@ public class PauseScript : MonoBehaviour {
 			"A Fugu Games Production",
 			"Programming by Phil Chu",
 			"Fugu logo by Shane Nakamura Designs",
-			"Copyright (c) 2007-2008 Technicat, LLC"} ;
+			"Copyright (c) 2007-2008 Technicat, LLC",
+            "Copyright (c) 2014-2015 David-Lee Kulsch, DLK Appentwicklung, greenboxGaming"} ;
 		public Texture[] crediticons;
 		
 		public enum Page {
@@ -57,7 +56,7 @@ public class PauseScript : MonoBehaviour {
 		private float fps;
 		
 		private int toolbarInt = 0;
-		private string[]  toolbarstrings =  {"Audio","Graphics","Stats","System"};
+		private string[]  toolbarstrings =  {"Audio","Stats","System"};
 		
 		
 		void Start() {
@@ -93,14 +92,6 @@ public class PauseScript : MonoBehaviour {
 			}
 		}
 		
-		static bool IsDashboard() {
-			return Application.platform == RuntimePlatform.OSXDashboardPlayer;
-		}
-		
-		static bool IsBrowser() {
-			return (Application.platform == RuntimePlatform.WindowsWebPlayer ||
-			        Application.platform == RuntimePlatform.OSXWebPlayer);
-		}
 		
 		void LateUpdate () {
 			if (showfps || showfpsgraph) {
@@ -136,7 +127,6 @@ public class PauseScript : MonoBehaviour {
         //GUI.matrix = (matrix)Matrix4x4.TRS (Vector3(0, 0, 0), Quaternion.identity, Vector3 (Screen.height / nativeVerticalResolution, Screen.height / nativeVerticalResolution, 1));
 
         ShowStatNums();
-			ShowLegal();
 			if (IsGamePaused()) {
 				GUI.color = statColor;
 				switch (currentPage) {
@@ -147,29 +137,13 @@ public class PauseScript : MonoBehaviour {
 			}   
 		}
 		
-		void ShowLegal() {
-			if (!IsLegal()) {
-				//GUI.Label(Rect(scaledResolutionWidth-100,nativeVerticalResolution-20,scaledResolutionWidth/4,nativeVerticalResolution/4),
-				GUI.Label(new Rect(Screen.width-100,Screen.height-20,90,20),
-				          "jdonavan.com");
-			}
-		}
-		
-		bool IsLegal() {
-			return !IsBrowser() || 
-				Application.absoluteURL.StartsWith("http://www.jdonavan.com/") ||
-					Application.absoluteURL.StartsWith("http://jdonavan.com/");
-			
-		}
-		
 		void ShowToolbar() {
 			BeginPage(800,500);
 			toolbarInt = GUILayout.Toolbar (toolbarInt, toolbarstrings);
 			switch (toolbarInt) {
 			case 0: VolumeControl(); break;
-			case 3: ShowDevice(); break;
-			case 1: Qualities(); QualityControl(); break;
-			case 2: StatControl(); break;
+			case 2: ShowDevice(); break;
+			case 1: StatControl(); break;
 			}
 			EndPage();
 		}
@@ -203,41 +177,6 @@ public class PauseScript : MonoBehaviour {
 			GUILayout.Label("Render Textures: "+SystemInfo.supportsRenderTextures);
 		}
 		
-		void Qualities() {
-			switch (QualitySettings.currentLevel) 
-			{
-			case QualityLevel.Fastest:
-				GUILayout.Label("Fastest");
-				break;
-			case QualityLevel.Fast:
-				GUILayout.Label("Fast");
-				break;
-			case QualityLevel.Simple:
-				GUILayout.Label("Simple");
-				break;
-			case QualityLevel.Good:
-				GUILayout.Label("Good");
-				break;
-			case QualityLevel.Beautiful:
-				GUILayout.Label("Beautiful");
-				break;
-			case QualityLevel.Fantastic:
-				GUILayout.Label("Fantastic");
-				break;
-			}
-		}
-		
-		void QualityControl() {
-			GUILayout.BeginHorizontal();
-			if (GUILayout.Button("Decrease")) {
-				QualitySettings.DecreaseLevel();
-			}
-			if (GUILayout.Button("Increase")) {
-				QualitySettings.IncreaseLevel();
-			}
-			GUILayout.EndHorizontal();
-		}
-		
 		void VolumeControl() {
 			GUILayout.Label("Volume");
 			AudioListener.volume = GUILayout.HorizontalSlider(AudioListener.volume, 0, 1);
@@ -246,8 +185,6 @@ public class PauseScript : MonoBehaviour {
 		void StatControl() {
 			GUILayout.BeginHorizontal();
 			showfps = GUILayout.Toggle(showfps,"FPS");
-			showtris = GUILayout.Toggle(showtris,"Triangles");
-			showvtx = GUILayout.Toggle(showvtx,"Vertices");
 			showfpsgraph = GUILayout.Toggle(showfpsgraph,"FPS Graph");
 			GUILayout.EndHorizontal();
 		}
@@ -266,16 +203,6 @@ public class PauseScript : MonoBehaviour {
 				string fpsstring= fps.ToString ("#,##0 fps");
 				GUI.color = Color.Lerp(lowFPSColor, highFPSColor,(fps-lowFPS)/(highFPS-lowFPS));
 				GUILayout.Label (fpsstring);
-			}
-			if (showtris || showvtx) {
-				GetObjectStats();
-				GUI.color = statColor;
-			}
-			if (showtris) {
-				GUILayout.Label (tris+"tri");
-			}
-			if (showvtx) {
-				GUILayout.Label (verts+"vtx");
 			}
 			GUILayout.EndArea();
 		}
@@ -296,49 +223,28 @@ public class PauseScript : MonoBehaviour {
 		bool IsBeginning() {
 			return (Time.time < startTime);
 		}
-		
-		
+			
 		void MainPauseMenu() {
-			BeginPage(800,300);
-			if (GUILayout.Button (IsBeginning() ? "Play (Gerät gerade halten beim klicken)" : "Continue")) {
-				UnPauseGame();
-				
-			}
-			if (GUILayout.Button ("Options")) {
+			//BeginPage(800,300);
+            if (GUI.Button(new Rect((Screen.width - ctrlWidth) / 2, 0, ctrlWidth, ctrlHeight), (IsBeginning() ? "Play (Gerät gerade halten beim klicken)" : "Continue (Gerät gerade halten beim klicken)"))){
+            UnPauseGame();
+            }
+			if (GUI.Button(new Rect((Screen.width - ctrlWidth) / 2, 120, ctrlWidth, ctrlHeight), "Options")) {
 				currentPage = Page.Options;
 			}
-			if (GUILayout.Button ("Credits")) {
+			if (GUI.Button(new Rect((Screen.width - ctrlWidth) / 2, 240, ctrlWidth, ctrlHeight), "Credits")) {
 				currentPage = Page.Credits;
 			}
-			if (!IsBeginning() && GUILayout.Button ("Mainmenu")) {
+			if (!IsBeginning() && GUI.Button(new Rect((Screen.width - ctrlWidth) /2 - 250, 120, ctrlWidth, ctrlHeight), "Mainmenu")) {
 				Application.LoadLevel(0); //back to main
 			}
-			if (!IsBeginning() && GUILayout.Button ("Restart")) {
+			if (!IsBeginning() && GUI.Button(new Rect((Screen.width - ctrlWidth) /2 + 250, 120, ctrlWidth, ctrlHeight), "Restart")) {
 				Application.LoadLevel(Application.loadedLevel); //back to main
 			}
-			EndPage();
+			//EndPage();
 		}
-		
-		void GetObjectStats() {
-			verts = 0;
-			tris = 0;
-			GameObject[] ob = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-			foreach (GameObject obj in ob) {
-				GetObjectStats(obj);
-			}
-		}
-		
-		void GetObjectStats(GameObject obj) {
-			Component[] filters;
-			filters = obj.GetComponentsInChildren<MeshFilter>();
-			foreach( MeshFilter f  in filters )
-			{
-				tris += f.sharedMesh.triangles.Length/3;
-				verts += f.sharedMesh.vertexCount;
-			}
-		}
-		
-		void PauseGame() {
+
+    void PauseGame() {
 			savedTimeScale = Time.timeScale;
 			Time.timeScale = 0;
 			AudioListener.pause = true;

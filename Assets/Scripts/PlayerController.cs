@@ -65,12 +65,13 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.touchCount > 0)
         {
+            
             Touch touch = Input.GetTouch(0);
-            if (touch.position.x < Screen.width / 2)
+            if (GUI.Image //TODO Input.GetButton("jumperButton"))
             {
                 inputJump = true;
             }
-            else if (touch.position.x > Screen.width / 2)
+            else if (touch.position.x < Screen.width / 2)
             {
                 inputJump = false;
                 isSlaying = true;

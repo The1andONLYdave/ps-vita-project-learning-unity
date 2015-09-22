@@ -2,13 +2,17 @@
 using System.Collections;
 
 public class MenuAbout : MonoBehaviour {
+    private float ctrlWidth = 240;
+    private float ctrlHeight = 100;
 
-	void OnGUI(){
-		if(GUI.Button(new Rect(100,100,300,100),"Start")){
-			Application.LoadLevel(1);
-		}
-		if(GUI.Button(new Rect(100,300,300,100),"Back")){
-			Application.LoadLevel(0);
-		}
+    void OnGUI(){
+        if (GUI.Button(new Rect((Screen.width - ctrlWidth) / 2, 0, ctrlWidth, ctrlHeight), "Start"))
+        {
+            Application.LoadLevel(1);
+        }
+        if (GUI.Button(new Rect((Screen.width - ctrlWidth) / 2, 120, ctrlWidth, ctrlHeight), "Back"))
+        {
+            Application.LoadLevel(0);
+        }
 	}
 }
